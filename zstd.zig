@@ -17,7 +17,9 @@ pub const Name       = T.Name;
 pub const Seq        = T.Seq;
 pub const Str        = T.Str;
 pub const ByteBuffer = T.ByteBuffer;
-
+pub const todo       = T.todo;
+pub const List       = T.List;
+pub const Map        = T.Map;
 
 //______________________________________
 // @section Logger.Core Exports

@@ -15,6 +15,7 @@ pub const cstr      = [:0]const u8;
 /// @descr List of CharLiteral Strings
 pub const cstr_List = []const cstr;
 
+
 //______________________________________
 // @section GArray Aliases
 //____________________________
@@ -24,6 +25,19 @@ pub const Seq = std.ArrayList;
 pub const ByteBuffer = Seq(u8);
 /// @descr Growable Sequence of Bytes (aka string). Alias for {@link ByteBuffer}
 pub const Str = ByteBuffer;
+
+//______________________________________
+// @section MultiArray List Aliases
+//____________________________
+/// @descr MultiArray List (SoA)
+pub const List = std.MultiArrayList;
+
+
+//______________________________________
+// @section Map Aliases
+//____________________________
+/// @descr Static Table (aka StaticStringMap)
+pub const Map = std.StaticStringMap;
 
 
 //______________________________________
