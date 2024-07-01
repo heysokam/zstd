@@ -8,6 +8,15 @@ pub const log   = @import("./zstd/log.zig");
 pub const shell = @import("./zstd/shell.zig");
 pub const T     = @import("./zstd/types.zig");
 
+//______________________________________
+// @section Type Exports
+//____________________________
+pub const cstr    = T.cstr;
+pub const Version = T.Version;
+pub const Name    = T.Name;
+pub const Seq     = T.Seq;
+pub const Str     = T.Str;
+
 
 //______________________________________
 // @section Logger.Core Exports
