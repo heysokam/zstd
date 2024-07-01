@@ -1,6 +1,6 @@
-//:____________________________________________________________________
-//  zstd  |  Copyright (C) Ivan Mar (sOkam!)  |  GNU LGPLv3 or later  :
-//:____________________________________________________________________
+//:____________________________________________________
+//  zstd  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  :
+//:____________________________________________________
 //! @fileoverview Cable connector to all zstd.Core modules
 //__________________________________________________________|
 // @section Forward Exports for other modules
@@ -11,11 +11,12 @@ pub const T     = @import("./zstd/types.zig");
 //______________________________________
 // @section Type Exports
 //____________________________
-pub const cstr    = T.cstr;
-pub const Version = T.Version;
-pub const Name    = T.Name;
-pub const Seq     = T.Seq;
-pub const Str     = T.Str;
+pub const cstr       = T.cstr;
+pub const Version    = T.Version;
+pub const Name       = T.Name;
+pub const Seq        = T.Seq;
+pub const Str        = T.Str;
+pub const ByteBuffer = T.ByteBuffer;
 
 
 //______________________________________
