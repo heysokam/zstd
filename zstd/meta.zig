@@ -11,11 +11,7 @@ const std = @import("std");
 /// @descr Returns the last part of the typeName for T, without any of its `one.two.Typ` dot prefixes
 pub fn typeName(T :type) []const u8 {
   const name = @typeName(T);
-  const start = start: {
-    const last = std.mem.lastIndexOfScalar(u8, name, '.') orelse 0;
-    if (last == 0) { break :start last;   }
-    else           { break :start last+1; }
-  };
+  const start = if (std.mem.lastIndexOfScalar(u8, name, '.')) |n| n+1 else 0;
   return name[start..name.len];
 }
 
