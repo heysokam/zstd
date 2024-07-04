@@ -10,8 +10,10 @@ const std = @import("std");
 //______________________________________
 // @section Array Aliases
 //____________________________
-/// @descr CharLiteral String. Compatible with C
-pub const cstr      = [:0]const u8;
+/// @descr CharLiteral String. Compatible with C (Zero terminated)
+pub const zstr      = [:0]const u8;
+/// @descr CharLiteral String
+pub const cstr      = []const u8;
 /// @descr List of CharLiteral Strings
 pub const cstr_List = []const cstr;
 
