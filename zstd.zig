@@ -7,6 +7,7 @@
 pub const log   = @import("./zstd/log.zig");
 pub const shell = @import("./zstd/shell.zig");
 pub const T     = @import("./zstd/types.zig");
+pub const meta  = @import("./zstd/meta.zig");
 
 //______________________________________
 // @section Type Exports
