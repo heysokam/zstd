@@ -20,7 +20,7 @@ pub fn glob (dir :cstr, ext :cstr, A :std.mem.Allocator) !cstr_List {
   var paths = std.ArrayList([]const u8).init(A);
   var D = try std.fs.cwd().openDir(dir, .{.iterate=true});
   defer D.close();
-  var it = D.iterate();
+  var it = D.iterateAssumeFirstIteration();
   while (try it.next()) |entry| {
     if (std.mem.endsWith(u8, entry.name, ext)) {
       const file = try std.fs.path.join(A, &.{ dir, entry.name });
