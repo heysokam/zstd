@@ -21,30 +21,12 @@ pub const types = struct {
 };
 
 pub const enums = struct {
-  const Separator = struct {
-    const char = '_';
-    const str  = "_";
-  };
-
   //____________________________________
-  /// @descr Returns {@arg name} without its SomeT_ prefix
-  pub fn fieldName(name :cstr) cstr {
-    const start = if (std.mem.lastIndexOfScalar(u8, name, enums.Separator.char)) |n| n+1 else 0;
-    return name[start..name.len];
-  }
-
-  //____________________________________
-  /// @warning
-  ///   !!! Broken in 0.13.0 !!!
-  ///   See: https://github.com/ziglang/zig/issues/20504
-  ///
-  /// @descr
-  ///  Combines all fields of all enums listed in {@arg list} into a single Enum type.
-  ///  Will return an enum with prefixed fields when {@arg prefix} is not omitted and sent as true
-  ///  @note Prefixes are created as `T_`
-  pub fn join (list :[]const type, comptime args :struct {
-      prefix :bool= true,
-    }) type {
+  /// @descr Combines all fields of all enums listed in {@arg list} into a single Enum type.
+  /// @important
+  ///  !! The generated type wont' be           `meta.test.4321.T`
+  ///  !! It will be its generating expresion   `meta.enums.join(&.{T1,T2,T3});`
+  pub fn join (list :[]const type) type {
     var index :usize= 0;
     // Find the total Length of the enum
     var length :usize= 0;
@@ -55,7 +37,7 @@ pub const enums = struct {
       const E_fields = @typeInfo(E).Enum.fields;
       for (0..E_fields.len) | id | {
         defer index += 1;
-        const name = if (args.prefix) (meta.types.name(E) ++ enums.Separator.str ++ E_fields[id].name) else E_fields[id].name;
+        const name =  E_fields[id].name;
         fields[index] = .{
           .name  = name,
           .value = index,
@@ -73,69 +55,31 @@ pub const enums = struct {
   }
 
   //____________________________________
-  /// @warning
-  ///   !!! Broken in 0.13.0 !!!
-  ///   See: https://github.com/ziglang/zig/issues/20504
-  ///
-  /// @descr Combines all fields of {@arg A} and {@arg B} enums into a single Enum type.
-  pub fn join2(A :type, B :type) type {
-    const A_fields = @typeInfo(A).Enum.fields;
-    const B_fields = @typeInfo(B).Enum.fields;
-    var new_fields :[A_fields.len + B_fields.len]std.builtin.Type.EnumField= undefined;
-    var new_index :usize= 0;
-
-    for (0..A_fields.len) |id| {
-      defer new_index += 1;
-      new_fields[new_index] = .{
-        .name = A_fields[id].name,
-        .value = new_index,
-      };
-    }
-
-    for (0..B_fields.len) |id| {
-      defer new_index += 1;
-      new_fields[new_index] = .{
-        .name = B_fields[id].name,
-        .value = new_index,
-      };
-    }
-
-    return @Type(.{.Enum= .{
-      .tag_type = std.math.IntFittingRange(0, new_fields.len -| 1),
-      .fields = &new_fields,
-      .decls = &.{},
-      .is_exhaustive = true,
-      }
-    });
-  }
-
-  /// @descr Action to take when converting an enum field with `zstd.meta.enums.from(val, ToType, .{.prefix= OPTION})`
-  ///  - none : Will act as if there were no prefixes
-  ///  - add  : Will add a prefix to `val.fieldName` before searching for its field inside the {@arg To} list of fields.
-  ///  - rmv  : Will remove a prefix to `val.fieldName` before searching for its field inside the {@arg To} list of fields.
-  const ConversionPrefix = enum { none, add, rmv };
-  /// @warning
-  ///   !!! Broken in 0.13.0 !!!
-  ///   See: https://github.com/ziglang/zig/issues/20504
-  ///
   /// @descr
   ///  Returns {@arg val} converted to the target type {@arg To}
-  ///  The option {@arg args.prefix} (default: none) will dictate whether the SomeT_ prefix will be added, removed or ignored.
   ///  @note {@arg val} must be contained in {@arg To}
-  pub fn from (val :anytype, To :type, comptime args :struct {
-      prefix :ConversionPrefix= .none,
-    }) To {
+  pub fn from (val :anytype, To :type) To {
     const info = @typeInfo(@TypeOf(val)).Enum;
     const id   = @intFromEnum(val);
     inline for (info.fields) | field | {
-      const name = switch (args.prefix) {
-        .none => comptime field.name,
-        .add  => comptime (meta.types.name(To) ++ enums.Separator.str ++ field.name),
-        .rmv  => comptime enums.fieldName(field.name),
-      };
-      if (field.value == id) return @field(To, name);
+      if (field.value == id) return @field(To, field.name);
     }
     unreachable;
   }
 };
+
+
+test "4321" {
+  const T1 = enum { one1, two1, thr1 };
+  const T2 = enum { one2, two2, thr2 };
+  const T  = meta.enums.join(&.{T1,T2});
+  const t1   = T1.one1;
+  const t1_1 = T.T1_one1;
+  std.debug.print("................\n", .{});
+  std.debug.print("T1   : {any}\n", .{T1});
+  std.debug.print("T2   : {any}\n", .{T2});
+  std.debug.print("T    : {s}\n", .{@typeName(T) });
+  std.debug.print("t1   : {any}\n", .{t1});
+  std.debug.print("t1_1 : {any}\n", .{t1_1});
+}
 
