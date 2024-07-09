@@ -22,11 +22,11 @@ pub const cstr_List = []const cstr;
 // @section GArray Aliases
 //____________________________
 /// @descr Generic Growable Sequence/Array. Maps to `std.ArrayList(T)`
-pub const Seq = std.ArrayList;
+pub const seq = std.ArrayList;
 /// @descr Growable Sequence of Bytes (aka string)
-pub const ByteBuffer = Seq(u8);
+pub const ByteBuffer = seq(u8);
 /// @descr Growable Sequence of Bytes (aka string). Alias for {@link ByteBuffer}
-pub const Str = ByteBuffer;
+pub const str = ByteBuffer;
 
 //______________________________________
 // @section MultiArray List Aliases
