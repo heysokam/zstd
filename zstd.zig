@@ -14,14 +14,14 @@ pub const files = @import("./zstd/files.zig");
 // @section Type Exports
 //____________________________
 pub const cstr       = T.cstr;
-pub const Version    = T.Version;
-pub const Name       = T.Name;
-pub const seq        = T.Seq;
-pub const str        = T.Str;
+pub const seq        = T.seq;
+pub const str        = T.str;
 pub const ByteBuffer = T.ByteBuffer;
-pub const todo       = T.todo;
 pub const List       = T.List;
 pub const Map        = T.Map;
+pub const Version    = T.Version;
+pub const Name       = T.Name;
+pub const todo       = T.todo;
 
 //______________________________________
 // @section Logger.Core Exports
