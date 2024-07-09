@@ -66,6 +66,14 @@ pub const Name = struct {
 //______________________________________
 // @section Other Aliases
 //____________________________
-/// @descr Describes a software version, using the Semantic Versioning 2.0.0 specification.
 pub const Version = std.SemanticVersion;
+/// @descr Returns a new Version object, described with the Semantic Versioning 2.0.0 specification.
+pub fn version (M :usize, m :usize, p :usize) Version { return version2(M,m,p, .{}); }
+pub fn version2 (M :usize, m :usize, p :usize, args :struct {
+    pre   : ?cstr= null,
+    build : ?cstr= null,
+  }) Version {
+  return Version{.major= M, .minor= m, .patch= p, .pre= args.pre, .build= args.build };
+
+}
 
