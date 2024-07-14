@@ -27,6 +27,18 @@ pub const seq = std.ArrayList;
 pub const ByteBuffer = seq(u8);
 /// @descr Growable Sequence of Bytes (aka string). Alias for {@link ByteBuffer}
 pub const str = ByteBuffer;
+//____________________________
+// @reference Filtered remove from ArrayList
+// fn filterItems (lst :*std.ArrayList(u64)) void {
+//   var to :usize= 0;
+//   for (0..lst.items.len) | from | {
+//     lst.items[to] = lst.items[from];             // move the item backwards when needed
+//     if (shouldStay(lst.items[to])) { to += 1; }  // Increase the target index to not overwrite items that we want to keep
+//   }
+//   lst.shrinkRetainingCapacity(to);               // Remove everything leftover at the end of the list
+// }
+//____________________________
+
 
 //______________________________________
 // @section MultiArray List Aliases
