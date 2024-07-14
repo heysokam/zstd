@@ -43,6 +43,42 @@ pub const Map = std.StaticStringMap;
 
 
 //______________________________________
+// @section Set Aliases
+//____________________________
+/// @descr Describes a set[T]. Doesn't maintain insertion order.
+/// @todo Support for containing strings by conditionally returning an std.BufSet
+/// @todo Rename to UnorderedSet and implement set as OrderedSet by default
+pub fn UnorderedSet (comptime T :type) type {
+// pub fn set (comptime T :type) type {
+  return struct {
+    data  :Data,
+    const Data = std.AutoHashMap(T, void);
+    pub const Iter = Data.KeyIterator;
+    pub fn create  (A :std.mem.Allocator) @This() { return @This(){.data= std.AutoHashMap(T, void).init(A)}; }
+    pub fn destroy (S :*@This()) void { S.data.deinit(); }
+    pub fn incl    (S :*@This(), val :T) !void { _ = try S.data.getOrPut(val); }
+    pub fn excl    (S :*@This(), val :T)  void { _ = S.data.remove(val) ; }
+    pub fn iter    (S :*const @This()) @This().Iter { return S.data.keyIterator(); }
+  };
+}
+//____________________________
+/// @descr Describes a set[T]
+/// @todo Support for containing strings by conditionally returning an std.StringArrayHashMap
+pub fn set (comptime T :type) type {
+  return struct {
+    data  :Data,
+    const Data = if (T == cstr) std.StringArrayHashMap(void) else std.AutoArrayHashMap(T, void);
+    pub fn create  (A :std.mem.Allocator) @This() { return @This(){.data= Data.init(A)}; }
+    pub fn destroy (S :*@This()) void { S.data.deinit(); }
+    pub fn incl    (S :*@This(), val :T) !void { _ = try S.data.getOrPut(val); }
+    pub fn excl    (S :*@This(), val :T)  void { _ = S.data.orderedRemove(val) ; }
+    pub fn items   (S :*const @This()) []const T { return S.data.keys(); }
+  };
+}
+
+
+
+//______________________________________
 // @section Marker Types
 //____________________________
 /// @descr Dummy type. Marks that a field is not used yet

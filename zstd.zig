@@ -16,6 +16,7 @@ pub const files = @import("./zstd/files.zig");
 pub const cstr       = T.cstr;
 pub const cstr_List  = T.cstr_List;
 pub const seq        = T.seq;
+pub const set        = T.set;
 pub const str        = T.str;
 pub const ByteBuffer = T.ByteBuffer;
 pub const List       = T.List;
