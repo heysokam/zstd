@@ -100,16 +100,39 @@ pub const Name = struct {
 
 
 //______________________________________
-// @section Other Aliases
+// @section Version Management
 //____________________________
 pub const Version = std.SemanticVersion;
 /// @descr Returns a new Version object, described with the Semantic Versioning 2.0.0 specification.
-pub fn version (M :usize, m :usize, p :usize) Version { return version2(M,m,p, .{}); }
+pub fn version  (M :usize, m :usize, p :usize) Version { return version2(M,m,p, .{}); }
 pub fn version2 (M :usize, m :usize, p :usize, args :struct {
     pre   : ?cstr= null,
     build : ?cstr= null,
   }) Version {
   return Version{.major= M, .minor= m, .patch= p, .pre= args.pre, .build= args.build };
-
 }
+
+//______________________________________
+// @section Programming Language Management
+//____________________________
+pub const Lang = enum {
+  None, M, Zig, C, Cpp, Nim, Asm, Unknown,
+  /// @descr Returns the language of the {@arg ext} extension. An empty extension will return Unknown lang.
+  pub fn fromExt (ext :cstr) Lang {
+    const result = if (std.mem.eql(u8, ext, "cpp")) Lang.Cpp
+      else if (std.mem.eql(u8, ext, ".cc"    )) Lang.Cpp
+      else if (std.mem.eql(u8, ext, ".c"     )) Lang.C
+      else if (std.mem.eql(u8, ext, ".cm"    )) Lang.M
+      else if (std.mem.eql(u8, ext, ".zm"    )) Lang.M
+      else if (std.mem.eql(u8, ext, ".zig"   )) Lang.Zig
+      else if (std.mem.eql(u8, ext, ".nim"   )) Lang.Nim
+      else if (std.mem.eql(u8, ext, ".nims"  )) Lang.Nim
+      else if (std.mem.eql(u8, ext, ".nimble")) Lang.Nim
+      else if (std.mem.eql(u8, ext, ".s"     )) Lang.Asm
+      else Lang.Unknown;
+    return result;
+  }
+  /// @descr Returns the language of the {@arg file}, based on its extension. An empty extension will return Unknown lang.
+  pub fn fromFile (file :cstr) Lang { return Lang.fromExt(std.fs.path.extension(file)); }
+};
 

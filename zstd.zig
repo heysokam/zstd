@@ -25,6 +25,7 @@ pub const Name       = T.Name;
 pub const todo       = T.todo;
 pub const Version    = T.Version;
 pub const version    = T.version;
+pub const Lang       = T.Lang;
 
 //______________________________________
 // @section Logger.Core Exports
