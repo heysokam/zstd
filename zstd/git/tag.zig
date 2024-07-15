@@ -59,16 +59,13 @@ pub const tag = struct {
     return result;
   }
 
-  const prnt = zstd.prnt;  // FIX: Remove
-
+  /// @ref "git push --tags"
   pub fn push (A :std.mem.Allocator) !void {
     var C = zstd.shell.Cmd.create(A);
     defer C.destroy();
     try C.add(git.cmd);
     try C.add(tag.cmd.push);
-    prnt("{s}\n", .{C.parts.items});
-    // const pushCommand = "git -C $1 push --tags";
-    // try C.exec();
+    try C.exec();
   }
 };
 
