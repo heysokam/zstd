@@ -9,6 +9,7 @@ pub const shell = @import("./zstd/shell.zig");
 pub const T     = @import("./zstd/types.zig");
 pub const meta  = @import("./zstd/meta.zig");
 pub const files = @import("./zstd/files.zig");
+pub const git   = @import("./zstd/git.zig");
 
 //______________________________________
 // @section Type Exports
