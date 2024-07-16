@@ -12,6 +12,7 @@ const std = @import("std");
 // @deps zstd
 const zstd = @import("../../zstd.zig");
 const cstr = zstd.cstr;
+const echo = zstd.echo;
 // @deps zstd.git
 const git    = @import("./base.zig");
 const Commit = @import("./commit.zig");
@@ -26,7 +27,8 @@ const cmd = struct {
     const End  = "]|[";
     const Line = "\""++sep.End++"\n\"";
   };
-  const format = &.{"--format=\"%H"++sep.Mid++"%B\""++sep.End, "--"};
+  const format   = &.{"--format=\"%H"++sep.Mid++"%B\""++sep.End, "--"};
+  // const fmt_JSON = "--pretty=format:{%n  \"commit\": \"%H\",%n  \"author\": \"%aN <%aE>\",%n  \"date\": \"%ad\",%n  \"message\": \"%B\"%n},";
 };
 
 pub const commits = struct {
@@ -38,7 +40,7 @@ pub const commits = struct {
     try C.add(git.cmd);
     try C.add(log.cmd.base);
     try C.addList(log.cmd.format);
-    try C.add(file);
+    if (!std.mem.eql(u8, file, "")) try C.add(file);
     try C.exec();
 
     // Get commits in inverted order, so that 0 is the first commit
@@ -58,6 +60,18 @@ pub const commits = struct {
         }));
     }
     return result;
+  }
+
+  const CommitData = struct {
+    commit  :cstr,
+    author  :cstr,
+    date    :cstr,
+    message :cstr,
+  };
+
+
+  pub fn all (A :std.mem.Allocator) !Commit.List {
+    return log.commits.forFile("", A);
   }
 };
 
