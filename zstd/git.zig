@@ -18,6 +18,7 @@ const Version = zstd.Version;
 const prnt = zstd.prnt;
 
 
+pub const Repo   = @import("./git/repo.zig");
 pub const Commit = @import("./git/commit.zig");
 pub const Tag    = @import("./git/tag.zig");
 pub const tag    = Tag.tag;
