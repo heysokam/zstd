@@ -123,6 +123,9 @@ pub fn version2 (M :usize, m :usize, p :usize, args :struct {
   }) Version {
   return Version{.major= M, .minor= m, .patch= p, .pre= args.pre, .build= args.build };
 }
+// TODO:
+// const Version *{.strdefine.}= "dev." & gorge "git --no-pager log -n 1 --pretty=format:%H"
+
 
 //______________________________________
 // @section Programming Language Management
