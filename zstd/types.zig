@@ -134,7 +134,7 @@ pub const Lang = enum {
   None, M, Zig, C, Cpp, Nim, Asm, Unknown,
   /// @descr Returns the language of the {@arg ext} extension. An empty extension will return Unknown lang.
   pub fn fromExt (ext :cstr) Lang {
-    const result = if (std.mem.eql(u8, ext, "cpp")) Lang.Cpp
+    const result = if (std.mem.eql(u8, ext, ".cpp")) Lang.Cpp
       else if (std.mem.eql(u8, ext, ".cc"    )) Lang.Cpp
       else if (std.mem.eql(u8, ext, ".c"     )) Lang.C
       else if (std.mem.eql(u8, ext, ".cm"    )) Lang.M
