@@ -14,6 +14,16 @@ const cstr      = T.cstr;
 const cstr_List = T.cstr_List;
 
 
+// TODO: Move to their own file, including the rest at ../shell.zig
+const zig = struct {
+  /// @descr Runs the given command using {@link std.process.Child.spawnAndWait} in non-capturing (aka shell-like) mode
+  fn shell (args :cstr_List, A :std.mem.Allocator) !void {
+    var P = std.process.Child.init(args, A);
+    _= try std.process.Child.spawnAndWait(&P);
+  }
+};
+
+
 //______________________________________
 // @section Object Fields
 //____________________________
@@ -63,7 +73,7 @@ pub fn addList (C :*Cmd, list :cstr_List) !void { try C.parts.appendSlice(list);
 //______________________________________
 /// @blocking
 /// @descr Runs the given Command in non-capturing (aka shell-like) mode
-// pub fn run (C :*Cmd) !void { try zig.shell(C.parts.items, C.parts.allocator); }
+pub fn run (C :*Cmd) !void { try zig.shell(C.parts.items, C.parts.allocator); }
 //______________________________________
 /// @blocking
 /// @descr Runs the given {@arg C} Command and stores the output into its {@link Cmd.result field}
