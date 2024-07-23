@@ -27,6 +27,7 @@ pub const Name       = T.Name;
 pub const Version    = T.Version;
 pub const version    = T.version;
 pub const Lang       = T.Lang;
+pub const System     = T.System;
 pub const todo       = markers.todo;
 
 //______________________________________
