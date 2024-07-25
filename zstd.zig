@@ -11,24 +11,26 @@ pub const meta    = @import("./zstd/meta.zig");
 pub const files   = @import("./zstd/files.zig");
 pub const git     = @import("./zstd/git.zig");
 pub const markers = @import("./zstd/markers.zig");
+pub const CLI     = @import("./zstd/cli.zig");
 
 //______________________________________
 // @section Type Exports
 //____________________________
-pub const cstr       = T.cstr;
-pub const cstr_List  = T.cstr_List;
-pub const seq        = T.seq;
-pub const set        = T.set;
-pub const str        = T.str;
-pub const ByteBuffer = T.ByteBuffer;
-pub const List       = T.List;
-pub const Map        = T.Map;
-pub const Name       = T.Name;
-pub const Version    = T.Version;
-pub const version    = T.version;
-pub const Lang       = T.Lang;
-pub const System     = T.System;
-pub const todo       = markers.todo;
+pub const cstr        = T.cstr;
+pub const cstr_List   = T.cstr_List;
+pub const seq         = T.seq;
+pub const set         = T.set;
+pub const str         = T.str;
+pub const ByteBuffer  = T.ByteBuffer;
+pub const List        = T.List;
+pub const Map         = T.Map;
+pub const StringTable = T.StringTable;
+pub const Name        = T.Name;
+pub const Version     = T.Version;
+pub const version     = T.version;
+pub const Lang        = T.Lang;
+pub const System      = T.System;
+pub const todo        = markers.todo;
 
 //______________________________________
 // @section Logger.Core Exports
