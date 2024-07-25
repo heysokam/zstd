@@ -50,5 +50,6 @@ pub const List = std.MultiArrayList;
 // @section Map Aliases
 //____________________________
 /// @descr Static Table (aka StaticStringMap)
-pub const Map = std.StaticStringMap;
+pub const Map         = std.StaticStringMap;
+pub const StringTable = std.StringHashMap;
 
