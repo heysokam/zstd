@@ -118,3 +118,34 @@ pub fn destroy (cli :*CLI) void {
   cli.opts.long.deinit();
 }
 
+//______________________________________
+// @section Check Existence
+//____________________________
+/// @descr Returns true if the {@arg cli} contains the {@arg arg} argument at position {@arg id}
+/// @note cli.args[0] will be arg1. cli.arg0 does not count
+pub fn hasArgAt (cli :*const CLI, arg :cstr, id :usize) bool {
+  return cli.args.items.len >= id+1 and std.mem.eql(u8, cli.args.items[id], arg);
+}
+/// @descr Returns true if the {@arg cli} contains an argument at position {@arg id}
+/// @note cli.args[0] will be arg1. cli.arg0 does not count
+pub fn hasArg (cli :*const CLI, id :usize) bool { return cli.args.items.len >= id+1; }
+/// @descr Returns true if the {@arg cli} contains the {@arg opt} long option
+pub fn hasLong (cli :*const CLI, opt :cstr) bool { return cli.opts.long.contains(opt); }
+/// @descr Returns true if the {@arg cli} contains the {@arg opt} short option
+pub fn hasShort (cli :*const CLI, opt :u8  ) bool { return cli.opts.short.data.contains(opt); }
+
+//______________________________________
+// @section Get the values
+//____________________________
+pub const get = struct {
+  const Error = error { LongOptionMissing };
+  /// @descr Returns the last value set for the long {@arg opt} in the {@arg cli} list of long options
+  pub fn long (cli :*const CLI, opt :cstr) !cstr {
+    const values = cli.opts.long.get(opt);
+    if (values == null) { return get.Error.LongOptionMissing; }
+    return values.?.items[values.?.items.len-1];
+  }
+};
+// Get: Aliases
+pub const getLong = CLI.get.long;
+
