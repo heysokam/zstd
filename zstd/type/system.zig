@@ -19,6 +19,26 @@ os   :System.Os,
 cpu  :System.Cpu,
 abi  :System.Abi,
 
+pub const default = struct {
+  pub fn abi (cpu :System.Cpu, os :System.Os) System.Abi {
+    if (os == .linux) return System.Abi.gnu; // TODO: Figure out how to output musl that is generally compatible
+    return System.Abi.default(cpu, std.Target.Os{.tag= os, .version_range= std.Target.Os.VersionRange.default(os, cpu)});
+  }
+};
+pub const parse = struct {
+  pub fn abi (S :cstr) System.Abi {
+    for (comptime std.enums.values(System.Abi)) |tag| { if (std.mem.eql(u8, S, @tagName(tag))) return tag; }
+    return System.host().abi;
+  }
+  pub fn os (S :cstr) System.Os {
+    for (comptime std.enums.values(System.Os)) |tag| { if (std.mem.eql(u8, S, @tagName(tag))) return tag; }
+    return System.host().os;
+  }
+  pub fn cpu (S :cstr) System.Cpu {
+    for (comptime std.enums.values(System.Cpu)) |tag| { if (std.mem.eql(u8, S, @tagName(tag))) return tag; }
+    return System.host().cpu;
+  }
+};
 
 //______________________________________
 /// @descr Returns the {@link System} that the code is running on.
