@@ -59,7 +59,6 @@ const parse = struct {
             else if (!escape)        { return CLI.parse.Error.Value; }
             } //:: if (ch == ") ...
 
-
           if (escape)           { escape = false; }  // This check has to go before the next. Allows `\\` as legal syntax
           else if (ch == '\\')  { escape = true; continue; }
           if (value == null) value = str.init(cli.A);
@@ -138,14 +137,21 @@ pub fn hasShort (cli :*const CLI, opt :u8  ) bool { return cli.opts.short.data.c
 // @section Get the values
 //____________________________
 pub const get = struct {
-  const Error = error { LongOptionMissing };
+  const Error = error { LongOptionMissing, ArgumentMissing };
   /// @descr Returns the last value set for the long {@arg opt} in the {@arg cli} list of long options
   pub fn long (cli :*const CLI, opt :cstr) !cstr {
     const values = cli.opts.long.get(opt);
     if (values == null) { return get.Error.LongOptionMissing; }
     return values.?.items[values.?.items.len-1];
   }
+  /// @descr Returns the Argument at position {@arg id}
+  /// @note cli.args[0] will be arg1. cli.arg0 does not count
+  pub fn arg (cli :*const CLI, id :usize) !cstr {
+    if (!cli.hasArg(id)) { return get.Error.ArgumentMissing; }
+    return cli.args.items[id];
+  }
 };
 // Get: Aliases
 pub const getLong = CLI.get.long;
+pub const getArg  = CLI.get.arg;
 
