@@ -86,3 +86,12 @@ pub fn eq_strict (A :*const System, B :System) bool { return A.eq(B) and A.abi =
 /// @descr Returns true if the given {@arg system} is not the same as the current host running the code.
 pub fn cross (system :*const System) bool { return !system.eq(System.host()); }
 
+
+//______________________________________
+// @section Extension Management
+//____________________________
+pub const ext = struct {
+  /// @descr Returns the binary executable extension used by the {@link Os} described in {@arg system}
+  pub fn bin (system :System) zstd.zstr { return system.os.exeFileExt(system.cpu); }
+};
+

@@ -12,6 +12,7 @@ pub const files   = @import("./zstd/files.zig");
 pub const git     = @import("./zstd/git.zig");
 pub const markers = @import("./zstd/markers.zig");
 pub const CLI     = @import("./zstd/cli.zig");
+pub const paths   = @import("./zstd/paths.zig");
 
 //______________________________________
 // @section Type Exports
