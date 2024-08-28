@@ -55,3 +55,13 @@ pub fn write (src :cstr, trg :cstr, args:struct{
   try args.dir.writeFile(.{.sub_path= trg, .data= src});
 }
 
+
+//______________________________________
+// @section File Copying
+//____________________________
+pub fn copy (src :cstr, trg :cstr, args:struct{
+    dir :Dir= std.fs.cwd(),
+  }) !void {
+  try args.dir.copyFile(src, args.dir, trg, .{});
+}
+
