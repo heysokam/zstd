@@ -9,3 +9,4 @@ pub usingnamespace @import("./type/name.zig");
 pub usingnamespace @import("./type/version.zig");
 pub usingnamespace @import("./type/lang.zig");
 pub usingnamespace @import("./type/system.zig");
+pub usingnamespace @import("./type/list.zig");
