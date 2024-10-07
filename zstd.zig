@@ -3,7 +3,10 @@
 //:____________________________________________________
 //! @fileoverview Cable connector to all zstd.Core modules
 //__________________________________________________________|
+
+//______________________________________
 // @section Forward Exports for other modules
+//____________________________
 pub const log     = @import("./zstd/log.zig");
 pub const shell   = @import("./zstd/shell.zig");
 pub const T       = @import("./zstd/types.zig");
@@ -13,6 +16,7 @@ pub const git     = @import("./zstd/git.zig");
 pub const markers = @import("./zstd/markers.zig");
 pub const CLI     = @import("./zstd/cli.zig");
 pub const paths   = @import("./zstd/paths.zig");
+pub const mode    = @import("./zstd/modes.zig");
 
 //______________________________________
 // @section Type Exports
@@ -24,6 +28,7 @@ pub const set         = T.set;
 pub const str         = T.str;
 pub const ByteBuffer  = T.ByteBuffer;
 pub const List        = T.List;
+pub const DataList    = T.DataList;
 pub const Map         = T.Map;
 pub const StringTable = T.StringTable;
 pub const Name        = T.Name;
@@ -45,4 +50,19 @@ pub const fail = log.fail;
 // @section Shell.Core Exports
 //____________________________
 pub const sh = shell.zsh;
+
+//______________________________________
+// @section Operating System Aliases
+//____________________________
+pub const os = struct {
+  pub const linux = mode.linux;
+  pub const win   = mode.windows;
+  pub const macos = mode.macos;
+};
+
+//______________________________________
+// @section Compile Mode Aliases
+//____________________________
+pub const debug = mode.debug;
+pub const safe  = mode.safe;
 
