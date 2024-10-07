@@ -59,6 +59,10 @@ pub const os = struct {
   pub const win   = mode.windows;
   pub const macos = mode.macos;
 };
+pub const linux = mode.linux;
+pub const win   = mode.windows;
+pub const macos = mode.macos;
+
 
 //______________________________________
 // @section Compile Mode Aliases
