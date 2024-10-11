@@ -11,6 +11,8 @@ const std = @import("std");
 //____________________________
 /// @descr CharLiteral String. Compatible with C (Zero terminated)
 pub const zstr      = [:0]const u8;
+/// @descr List of (Zero terminated) CharLiteral Strings
+pub const zstr_List = []const zstr;
 /// @descr CharLiteral String
 pub const cstr      = []const u8;
 /// @descr List of CharLiteral Strings
