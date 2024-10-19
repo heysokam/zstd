@@ -70,12 +70,30 @@ pub fn desktops () []const System {
   };
 }
 
-pub fn zigTriple (system :*const System, A :std.mem.Allocator) !cstr {
+pub fn zigTriple (S :*const System, A :std.mem.Allocator) !cstr {
   var result = str.init(A);
   const W = result.writer();
-  try W.print("{s}-{s}", .{@tagName(system.cpu), @tagName(system.os)});
-  if (system.abi != .none) try W.print("-{s}", .{@tagName(system.abi)}); // Only add the ABI when there is one
+  try W.print("{s}-{s}", .{@tagName(S.cpu), @tagName(S.os)});
+  if (S.abi != .none) try W.print("-{s}", .{@tagName(S.abi)}); // Only add the ABI when there is one
   return try result.toOwnedSlice();
+}
+
+pub fn nimOS (S :*const System, A :std.mem.Allocator) !cstr {_=A;
+  return @tagName(S.os);
+  // std.debug.panic("TODO: IMPLEMENT\n", .{});
+  // var result = str.init(A);
+  // const W = result.writer();
+  // try W.print("{s}", .{@tagName(S.cpu), @tagName(S.os)});
+  // return try result.toOwnedSlice();
+}
+
+pub fn nimCPU (S :*const System, A :std.mem.Allocator) !cstr {_=A;
+  return @tagName(S.cpu);
+  // std.debug.panic("TODO: IMPLEMENT\n", .{});
+  // var result = str.init(A);
+  // const W = result.writer();
+  // try W.print("{s}", .{@tagName(S.cpu)});
+  // return try result.toOwnedSlice();
 }
 
 /// @descr Returns whether or not {@arg A} is the same CPU-OS as {@arg B}
@@ -84,7 +102,7 @@ pub fn eq (A :*const System, B :System) bool { return A.cpu == B.cpu and A.os ==
 /// @descr Returns whether or not {@arg A} is the same CPU-OS-ABI as {@arg B}
 pub fn eq_strict (A :*const System, B :System) bool { return A.eq(B) and A.abi == B.abi; }
 /// @descr Returns true if the given {@arg system} is not the same as the current host running the code.
-pub fn cross (system :*const System) bool { return !system.eq(System.host()); }
+pub fn cross (S :*const System) bool { return !S.eq(System.host()); }
 
 
 //______________________________________
@@ -92,6 +110,6 @@ pub fn cross (system :*const System) bool { return !system.eq(System.host()); }
 //____________________________
 pub const ext = struct {
   /// @descr Returns the binary executable extension used by the {@link Os} described in {@arg system}
-  pub fn bin (system :System) zstd.zstr { return system.os.exeFileExt(system.cpu); }
+  pub fn bin (S :System) zstd.zstr { return S.os.exeFileExt(S.cpu); }
 };
 
