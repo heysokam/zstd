@@ -18,12 +18,15 @@ pub const markers = @import("./zstd/markers.zig");
 pub const CLI     = @import("./zstd/cli.zig");
 pub const paths   = @import("./zstd/paths.zig");
 pub const mode    = @import("./zstd/modes.zig");
+pub const flags   = @import("./zstd/flags.zig");
+pub const Flags   = flags.T;
 
 //______________________________________
 // @section Type Exports
 //____________________________
 pub const cstr        = T.cstr;
 pub const cstr_List   = T.cstr_List;
+pub const zstr        = T.zstr;
 pub const seq         = T.seq;
 pub const set         = T.set.Set;
 pub const UnorderedSet= T.set.Unordered;
