@@ -75,3 +75,9 @@ pub const macos = mode.macos;
 pub const debug = mode.debug;
 pub const safe  = mode.safe;
 
+//______________________________________
+// @section Validation & Assertions
+//____________________________
+pub const validate = @import("./zstd/validate.zig").validate;
+pub const ensure   = validate.always;
+pub const assert   = validate.debug;
