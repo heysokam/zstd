@@ -7,7 +7,7 @@
 const std = @import("std");
 
 
-pub fn T (comptime F :type, comptime I :type) type {
+pub fn @"type" (comptime F :type, comptime I :type) type {
   comptime std.debug.assert(@sizeOf(F)    == @sizeOf(I)   );
   // comptime std.debug.assert(@bitSizeOf(F) == @bitSizeOf(I));
   return struct {

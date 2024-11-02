@@ -19,7 +19,14 @@ pub const CLI     = @import("./zstd/cli.zig");
 pub const paths   = @import("./zstd/paths.zig");
 pub const mode    = @import("./zstd/modes.zig");
 pub const flags   = @import("./zstd/flags.zig");
-pub const Flags   = flags.T;
+pub const Flags   = flags.type;
+
+//______________________________________
+// @section Return code for the Main Entry Point of apps.
+//____________________________
+pub const result  = @import("./zstd/result.zig");
+pub const Result  = result.type;
+pub const ok      = result.ok;
 
 //______________________________________
 // @section Type Exports
