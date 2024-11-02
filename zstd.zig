@@ -27,6 +27,11 @@ pub const Flags   = flags.type;
 pub const result  = @import("./zstd/result.zig");
 pub const Result  = result.type;
 pub const ok      = result.ok;
+pub const tst     = result.tst;
+pub const warn    = result.warn;
+pub const err     = result.err;
+pub const fatal   = result.fatal;
+
 
 //______________________________________
 // @section Type Exports
