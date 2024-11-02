@@ -3,6 +3,7 @@
 //:____________________________________________________
 //! @fileoverview Aliases for Zig std types
 //___________________________________________|
+const zstd = @This();
 // @deps std
 const std = @import("std");
 
@@ -24,10 +25,21 @@ pub const cstr_List = []const cstr;
 //____________________________
 /// @descr Generic Growable Sequence/Array. Maps to `std.ArrayList(T)`
 pub const seq = std.ArrayList;
-/// @descr Growable Sequence of Bytes (aka string)
+/// @descr Growable Sequence of Bytes
 pub const ByteBuffer = seq(u8);
 /// @descr Growable Sequence of Bytes (aka string). Alias for {@link ByteBuffer}
-pub const str = ByteBuffer;
+pub const str = zstd.Str.type;
+//____________________________
+/// @descr Collection of tools for dealing with Growable Sequence of Bytes (aka string). Alias for {@link ByteBuffer}
+pub const Str = struct {
+  const @"type" = ByteBuffer;
+  /// @descr Allocates a Growable Sequence of Bytes (aka string) from the given {@arg S} string.
+  pub fn from (S :cstr, A :std.mem.Allocator) !zstd.str {
+    var result = try zstd.str.initCapacity(A, S.len);
+    try result.appendSlice(S);
+    return result;
+  } //:: zstd.Str.from
+}; //:: zstd.Str
 //____________________________
 // @reference Filtered remove from ArrayList
 // fn filterItems (lst :*std.ArrayList(u64)) void {
