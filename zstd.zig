@@ -39,6 +39,7 @@ pub const fatal   = result.fatal;
 pub const cstr        = T.cstr;
 pub const cstr_List   = T.cstr_List;
 pub const zstr        = T.zstr;
+pub const zstr_List   = T.zstr_List;
 pub const seq         = T.seq;
 pub const set         = T.set.Set;
 pub const UnorderedSet= T.set.Unordered;
