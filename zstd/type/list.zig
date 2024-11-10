@@ -9,8 +9,8 @@ const Distinct = @import("./distinct.zig").Distinct;
 
 //______________________________________
 /// @descr Describes a growable list of arbitrary data that must be indexed with a Distinct(uint)
-pub fn DataList2 (T :type, P :type) type { switch (@typeInfo(T)) {
-    .int, .comptime_int => |t| if (t.int.signedness != .unsigned)
+pub fn DataList2 (T :type, P :type) type { switch (@typeInfo(P)) {
+    .int => |t| if (t.signedness != .unsigned)
             @compileError("The integer type used for the Index/Position of the list MUST be unsigned."),
     else => @compileError("The type used for the Index/Position of the list MUST be an integer.")
   } return struct {
