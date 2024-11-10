@@ -54,6 +54,7 @@ pub const Version     = T.Version;
 pub const version     = T.version;
 pub const Lang        = T.Lang;
 pub const System      = T.System;
+pub const Distinct    = T.Distinct;
 pub const todo        = markers.todo;
 
 //______________________________________

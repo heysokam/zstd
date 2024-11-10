@@ -11,3 +11,4 @@ pub usingnamespace @import("./type/lang.zig");
 pub usingnamespace @import("./type/system.zig");
 pub usingnamespace @import("./type/list.zig");
 pub usingnamespace @import("./type/array.zig");
+pub usingnamespace @import("./type/distinct.zig");
