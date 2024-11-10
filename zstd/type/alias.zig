@@ -67,9 +67,3 @@ pub const List = std.MultiArrayList;
 pub const Map         = std.StaticStringMap;
 pub const StringTable = std.StringHashMap;
 
-//______________________________________
-// @section Distinct Numbers
-//____________________________
-pub fn Distinct (T :type) type { return enum(T) {_,}; }
-pub const distinct = Distinct;
-
