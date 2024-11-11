@@ -1,6 +1,6 @@
-//:___________________________________________________________________
-//  zstd  |  Copyright (C) Ivan Mar (sOkam!)  |  GNU GPLv3 or later  :
-//:___________________________________________________________________
+//:____________________________________________________________________
+//  zstd  |  Copyright (C) Ivan Mar (sOkam!)  |  GNU LGPLv3 or later  :
+//:____________________________________________________________________
 //! @fileoverview
 //!  Describes a Shell Command and the tools to manage it
 //!  The command will be run by combining all of its separate parts into a single string
