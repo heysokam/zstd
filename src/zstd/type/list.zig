@@ -23,7 +23,7 @@ pub fn DataList2 (T :type, P :type) type { switch (@typeInfo(P)) {
   entries  :Entries= .{},
 
   // @descr Creates a new empty DataList(T) object.
-  pub fn create (A :std.mem.Allocator) @This() { return @This(){.A=A, .entries= Entries.init(A, &.{}, &.{})}; }
+  pub fn create (A :std.mem.Allocator) !@This() { return @This(){.A=A, .entries= try Entries.init(A, &.{}, &.{})}; }
   // @descr Releases all memory used by the DataList(T)
   pub fn destroy (L :*@This()) void { L.entries.deinit(L.A); }
   // @descr Duplicates the data of the {@arg N} so that it is safe to call {@link DataList(T).destroy} without deallocating the duplicate.
