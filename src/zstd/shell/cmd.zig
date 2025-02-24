@@ -36,7 +36,7 @@ result  :?Cmd.Result = null,
 // @section Internal Types
 //____________________________
 const Parts = T.seq(cstr);
-const Result = struct {
+pub const Result = struct {
   stdout  :Data,
   stderr  :Data,
   code    :?u8,
@@ -50,6 +50,11 @@ const Result = struct {
       .code   = null,
     };
   }
+  pub fn clone (R :*Cmd.Result) !Cmd.Result { return Cmd.Result{
+    .stderr = try R.stderr.clone(),
+    .stdout = try R.stdout.clone(),
+    .code   = R.code
+  };}
   fn destroy (R :*Cmd.Result) void { R.stderr.deinit(); R.stdout.deinit(); R.code = null; }
 };
 
