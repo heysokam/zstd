@@ -23,7 +23,7 @@ opts  :Opts,
 pub const Opts = struct {
   short  :Short,
   long   :Long,
-  const Short = set(u8);
+  const Short = set.Ordered(u8);
   const Long  = Table(StrList);  // (key :string, values[cstr])
 };
 const Args = StrList;
