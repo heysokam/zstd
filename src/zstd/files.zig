@@ -3,11 +3,16 @@
 //:____________________________________________________________________
 //! @fileoverview Ergonomics and Tools to deal with Files
 //________________________________________________________|
+const _This = @This();
 // @deps std
 const std = @import("std");
 const Dir = std.fs.Dir;
 // @deps zstd
-const zstd = @import("./types.zig");
+const zstd = struct {
+  usingnamespace @import("./types.zig");
+  const files = _This;
+};
+
 const cstr = zstd.cstr;
 const cstr_List = zstd.cstr_List;
 const seq  = zstd.seq;
@@ -49,9 +54,13 @@ pub fn read (src :cstr, A :std.mem.Allocator, args:struct{
 //______________________________________
 // @section File Writing
 //____________________________
+// @descr Writes the {@arg src} data to the {@arg trg} file.
+// @note Will recursively create the entire path that contains the file when {@arg args.create} is true (default: true)
 pub fn write (src :cstr, trg :cstr, args:struct{
-    dir :Dir= std.fs.cwd(),
+    dir    :Dir= std.fs.cwd(),
+    create :bool= true,
   }) !void {
+  if (args.create) try args.dir.makePath(std.fs.path.dirname(trg) orelse ".");
   try args.dir.writeFile(.{.sub_path= trg, .data= src});
 }
 
@@ -63,5 +72,15 @@ pub fn copy (src :cstr, trg :cstr, args:struct{
     dir :Dir= std.fs.cwd(),
   }) !void {
   try args.dir.copyFile(src, args.dir, trg, .{});
+}
+
+
+//______________________________________
+// @section File Checking
+//____________________________
+pub fn exists (src :cstr, args:struct{
+    dir  :Dir= std.fs.cwd(),
+  }) bool {
+  return if (args.dir.access(src, .{.mode= .read_only})) |_| true else |_| false;
 }
 
