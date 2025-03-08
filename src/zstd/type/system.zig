@@ -22,7 +22,57 @@ abi  :System.Abi,
 pub const default = struct {
   pub fn abi (cpu :System.Cpu, os :System.Os) System.Abi {
     if (os == .linux) return System.Abi.gnu; // TODO: Figure out how to output musl that is generally compatible
-    return System.Abi.default(cpu, std.Target.Os{.tag= os, .version_range= std.Target.Os.VersionRange.default(os, cpu)});
+    // return System.Abi.default(cpu, std.Target.Os{.tag= os, .version_range= std.Target.Os.VersionRange.default(os, cpu)});
+    // return System.Abi.default(cpu, std.Target.Os.Tag.defaultVersionRange(cpu));
+    //......................................
+    // FIX:
+    //  Circular dependency: Abi->Os.tag->Os->VersionRange->Abi
+    //  Should be the above instead.
+    //
+    //  Dependency created by : https://github.com/ziglang/zig/pull/22225
+    //  Issue reported at     : https://github.com/ziglang/zig/issues/23146
+    //
+    //  Code copy-pasted from std.Target.Abi.default.
+    //  Should remove when possible.
+    //......................................
+    return switch (os) {
+   .freestanding, .other => switch (cpu) {
+      .arm, .armeb, .thumb, .thumbeb, .csky, .mips, .mipsel, .powerpc, .powerpcle, => .eabi,
+      else => .none,    },
+    .aix => if (cpu == .powerpc) .eabihf else .none,
+    .haiku => switch (cpu) {
+      .arm, .thumb, .powerpc, => .eabihf,
+      else => .none,    },
+    .hurd => .gnu,
+    .linux => switch (cpu) {
+      .arm, .armeb, .thumb, .thumbeb, .powerpc, .powerpcle, => .musleabihf,
+      .csky, => .gnueabi,
+      .mips, .mipsel, => .musleabi,
+      .mips64, .mips64el, => .muslabi64,
+      else => .musl,    },
+    .rtems => switch (cpu) {
+      .arm, .armeb, .thumb, .thumbeb, .mips, .mipsel, => .eabi,
+      .powerpc, => .eabihf,
+      else => .none,    },
+    .freebsd => switch (cpu) {
+      .arm, .armeb, .thumb, .thumbeb, .powerpc, => .eabihf,
+      .mips, .mipsel, => .eabi,
+      else => .none,    },
+    .netbsd => switch (cpu) {
+      .arm, .armeb, .thumb, .thumbeb, .powerpc, => .eabihf,
+      .mips, .mipsel, => .eabi,
+      else => .none,    },
+    .openbsd => switch (cpu) {
+      .arm, .thumb, => .eabi,
+      .powerpc, => .eabihf,
+      else => .none,    },
+    .ios => if (cpu == .x86_64) .macabi else .none,
+    .tvos, .visionos, .watchos => if (cpu == .x86_64) .simulator else .none,
+    .windows => .gnu,
+    .uefi => .msvc,
+    .wasi, .emscripten => .musl,
+    .contiki, .elfiamcu, .fuchsia, .hermit, .plan9, .serenity, .zos, .dragonfly, .driverkit, .macos, .illumos, .solaris, .ps3, .ps4, .ps5, .amdhsa, .amdpal, .cuda, .mesa3d, .nvcl, .opencl, .opengl, .vulkan, => .none,
+    };
   }
 };
 pub const parse = struct {

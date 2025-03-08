@@ -88,8 +88,12 @@ pub fn exec (C :*Cmd) !void {
   P.stdout_behavior = .Pipe;
   P.stderr_behavior = .Pipe;
   try P.spawn();
-  try P.collectOutput(&C.result.?.stdout, &C.result.?.stderr, Cmd.Result.MaxBytes);
+  var tmp_stdout = C.result.?.stdout.moveToUnmanaged();
+  var tmp_stderr = C.result.?.stderr.moveToUnmanaged();
+  try P.collectOutput(C.parts.allocator, &tmp_stdout, &tmp_stderr, Cmd.Result.MaxBytes);
   const code = try P.wait();
-  C.result.?.code = code.Exited;
+  C.result.?.stdout = tmp_stdout.toManaged(C.result.?.stdout.allocator);
+  C.result.?.stderr = tmp_stderr.toManaged(C.result.?.stderr.allocator);
+  C.result.?.code   = code.Exited;
 }
 
