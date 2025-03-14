@@ -31,6 +31,7 @@ pub const default = struct {
     //
     //  Dependency created by : https://github.com/ziglang/zig/pull/22225
     //  Issue reported at     : https://github.com/ziglang/zig/issues/23146
+    //  Fixed by              : https://github.com/ziglang/zig/pull/23149
     //
     //  Code copy-pasted from std.Target.Abi.default.
     //  Should remove when possible.
