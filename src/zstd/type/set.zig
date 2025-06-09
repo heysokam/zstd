@@ -11,6 +11,7 @@ const std = @import("std");
 const alias = @import("./alias.zig");
 const cstr  = alias.cstr;
 
+
 //______________________________________
 // @section Set Aliases
 //____________________________
@@ -24,6 +25,7 @@ pub fn Unordered (comptime T :type) type {
     const Data = std.AutoHashMap(T, void);
     pub const Iter = Data.KeyIterator;
     pub fn create   (A :std.mem.Allocator) @This() { return @This(){.data= std.AutoHashMap(T, void).init(A)}; }
+    pub fn clone    (S :*const @This()) !@This() { return @This(){.data= try S.data.clone()}; }
     pub fn destroy  (S :*@This()) void { S.data.deinit(); }
     pub fn incl     (S :*@This(), val :T) !void { _ = try S.data.getOrPut(val); }
     pub fn excl     (S :*@This(), val :T)  void { _ = S.data.remove(val) ; }
