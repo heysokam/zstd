@@ -81,7 +81,7 @@ pub fn addList (C :*Cmd, list :cstr_List) !void { try C.parts.appendSlice(list);
 pub fn run (C :*Cmd) !void { try zig.shell(C.parts.items, C.parts.allocator); }
 //______________________________________
 /// @blocking
-/// @descr Runs the given {@arg C} Command and stores the output into its {@link Cmd.result field}
+/// @descr Runs the given {@arg C} Command and stores the output into its {@link Cmd.result} field
 pub fn exec (C :*Cmd) !void {
   C.result = Cmd.Result.create(C.parts.allocator);
   var P = std.process.Child.init(C.parts.items, C.parts.allocator);

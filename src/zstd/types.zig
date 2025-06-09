@@ -4,6 +4,7 @@
 //! @fileoverview Forward Export all other type modules
 //______________________________________________________|
 pub usingnamespace @import("./type/alias.zig");
+pub usingnamespace @import("./type/sequence.zig");
 pub usingnamespace @import("./type/set.zig");
 pub usingnamespace @import("./type/name.zig");
 pub usingnamespace @import("./type/version.zig");

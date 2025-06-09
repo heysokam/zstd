@@ -6,51 +6,23 @@
 const zstd = @This();
 // @deps std
 const std = @import("std");
+const ByteBuffer = @import("./sequence.zig").ByteBuffer;
 
 //______________________________________
 // @section Array Aliases
 //____________________________
 /// @descr CharLiteral String. Compatible with C (Zero terminated)
-pub const zstr      = [:0]const u8;
+pub const zstring      = [:0]const u8;
+pub const zstr         = zstring;
 /// @descr List of (Zero terminated) CharLiteral Strings
-pub const zstr_List = []const zstr;
+pub const zstring_List = []const zstring;
+pub const zstr_List    = zstring_List;
 /// @descr CharLiteral String
-pub const cstr      = []const u8;
+pub const cstring      = []const u8;
+pub const cstr         = cstring;
 /// @descr List of CharLiteral Strings
-pub const cstr_List = []const cstr;
-
-
-//______________________________________
-// @section GArray Aliases
-//____________________________
-/// @descr Generic Growable Sequence/Array. Maps to `std.ArrayList(T)`
-pub const seq = std.ArrayList;
-/// @descr Growable Sequence of Bytes
-pub const ByteBuffer = seq(u8);
-/// @descr Growable Sequence of Bytes (aka string). Alias for {@link ByteBuffer}
-pub const str = zstd.Str.type;
-//____________________________
-/// @descr Collection of tools for dealing with Growable Sequence of Bytes (aka string). Alias for {@link ByteBuffer}
-pub const Str = struct {
-  const @"type" = ByteBuffer;
-  /// @descr Allocates a Growable Sequence of Bytes (aka string) from the given {@arg S} string.
-  pub fn from (S :cstr, A :std.mem.Allocator) !zstd.str {
-    var result = try zstd.str.initCapacity(A, S.len);
-    try result.appendSlice(S);
-    return result;
-  } //:: zstd.Str.from
-}; //:: zstd.Str
-//____________________________
-// @reference Filtered remove from ArrayList
-// fn filterItems (lst :*std.ArrayList(u64)) void {
-//   var to :usize= 0;
-//   for (0..lst.items.len) | from | {
-//     lst.items[to] = lst.items[from];             // move the item backwards when needed
-//     if (shouldStay(lst.items[to])) { to += 1; }  // Increase the target index to not overwrite items that we want to keep
-//   }
-//   lst.shrinkRetainingCapacity(to);               // Remove everything leftover at the end of the list
-// }
-//____________________________
+pub const cstring_List = []const cstring;
+pub const cstr_List    = cstring_List;
 
 
 //______________________________________
