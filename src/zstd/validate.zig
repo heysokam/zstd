@@ -6,20 +6,19 @@
 // @deps std
 const std = @import("std");
 // @deps zstd
-const cstr = @import("./types.zig").cstr;
+const cstring = @import("./types.zig").cstring;
 
 pub const ensure = validate.always;
 pub const assert = validate.debug;
 
 pub const validate = struct {
-  const builtin = @import("builtin");
-  pub fn always (cond :bool, msg :cstr) void {
-    if (!cond) std.debug.panic(msg++"\n", .{});
+  pub fn always (cond :bool, msg :cstring) void {
+    if (!cond) std.debug.panic("{s}\n", .{msg});
   } //:: zstd.validate.always
 
-  pub fn debug (cond :bool, msg :cstr) void {
+  pub fn debug (cond :bool, msg :cstring) void {
     if (!std.debug.runtime_safety) return;
-    if (!cond) std.debug.panic(msg++"\n", .{});
+    if (!cond) std.debug.panic("{s}\n", .{msg});
   } //:: zstd.validate.debug
 }; //:: zstd.validate
 
