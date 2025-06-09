@@ -6,7 +6,13 @@
 const zstd = @This();
 // @deps std
 const std = @import("std");
-const ByteBuffer = @import("./sequence.zig").ByteBuffer;
+
+
+//______________________________________
+// @section Base/Primary Type Aliases
+//____________________________
+pub const todo = ?u8;
+
 
 //______________________________________
 // @section Array Aliases
@@ -17,9 +23,12 @@ pub const zstr         = zstring;
 /// @descr List of (Zero terminated) CharLiteral Strings
 pub const zstring_List = []const zstring;
 pub const zstr_List    = zstring_List;
-/// @descr CharLiteral String
+/// @descr CharLiteral String (constant)
 pub const cstring      = []const u8;
 pub const cstr         = cstring;
+/// @descr Modifiable CharLiteral String
+pub const mstring     = []u8;
+pub const mstr        = mstring;
 /// @descr List of CharLiteral Strings
 pub const cstring_List = []const cstring;
 pub const cstr_List    = cstring_List;

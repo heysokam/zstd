@@ -45,6 +45,7 @@ pub const seq         = T.seq;
 pub const set         = T.set.Set;
 pub const UnorderedSet= T.set.Unordered;
 pub const string      = T.string;
+pub const str         = T.string.create;
 pub const ByteBuffer  = T.ByteBuffer;
 pub const List        = T.List;
 pub const DataList    = T.DataList;

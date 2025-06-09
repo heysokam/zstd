@@ -77,8 +77,8 @@ pub fn seq (comptime T :type) type { return struct {
   }
 
   //______________________________________
-  pub fn toOwned (S :*@This(), comptime sentinel :T) !@This().Slice {
-    return try S.buffer.toOwnedSlice(S.A, sentinel);
+  pub fn toOwned (S :*@This()) !@This().Slice {
+    return try S.buffer.toOwnedSlice(S.A);
   }
   //______________________________________
   pub fn toOwnedSentinel (S :*@This(), comptime sentinel :T) !@This().SentinelSlice(sentinel) {
