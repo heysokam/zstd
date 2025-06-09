@@ -62,8 +62,8 @@ pub fn seq (comptime T :type) type { return struct {
   }
   //______________________________________
   /// @descr Creates a sequence from the given unmanaged seq.Buffer
-  pub fn fromUnmanaged (buffer :@This().Buffer, allocator :std.mem.Allocator) !@This() {
-    var result = try @This().create_capacity(buffer.capacity, allocator);
+  pub fn fromUnmanaged (buffer :@This().Buffer, allocator :std.mem.Allocator) @This() {
+    var result = @This().create_empty(allocator);
     result.buffer = buffer;
     return result;
   }
