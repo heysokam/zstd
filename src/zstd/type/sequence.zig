@@ -5,7 +5,11 @@
 //_____________________________________________________________________________|
 pub const sequence = @This();
 const std = @import("std");
-const cstring = @import("./alias.zig").cstring;
+const alias = @import("./alias.zig");
+const zstd = struct {
+  const cstring = alias.cstring;
+  const zstring = alias.zstring;
+};
 
 //______________________________________
 // @section Aliases
@@ -21,14 +25,19 @@ pub const ByteBuffer = seq(u8);
 //____________________________
 /// @descr Generic Growable Sequence/Array
 pub fn seq (comptime T :type) type { return struct {
-  const Buffer = std.ArrayListUnmanaged(T);
+  const Buffer        = std.ArrayListUnmanaged(T);
+  const Slice         = @This().Buffer.Slice;
+  const SentinelSlice = @This().Buffer.SentinelSlice;
 
   A       :std.mem.Allocator,
   buffer  :@This().Buffer,
-  pub fn data (str :*const @This()) []T { return str.buffer.items; }
+  pub fn data (str :*const @This()) @This().Slice { return str.buffer.items; }
 
   //______________________________________
-  /// @description Creates a completely empty sequence
+  /// @descr Creates a sequence with the given list of items
+  pub fn destroy (S :*@This()) void { S.buffer.deinit(S.A); }
+  //______________________________________
+  /// @descr Creates a completely empty sequence
   pub fn create_empty (allocator :std.mem.Allocator) @This() {
     return @This(){
       .A      = allocator,
@@ -37,36 +46,74 @@ pub fn seq (comptime T :type) type { return struct {
   }
 
   //______________________________________
-  /// @description Creates an empty sequence with the given pre-allocated capacity
+  /// @descr Creates an empty sequence with the given pre-allocated capacity
   pub fn create_capacity (cap :usize, allocator :std.mem.Allocator) !@This() {
-    var result = @This(){
-      .A      = allocator,
-      .buffer = @This().Buffer{},
-    };
+    var result = @This().create_empty(allocator);
     try result.buffer.ensureTotalCapacity(result.A, cap);
     return result;
   }
 
   //______________________________________
-  /// @description Creates a sequence with the given list of items
-  pub fn create (items :[]const T, allocator :std.mem.Allocator) !@This() {
+  /// @descr Creates a sequence with the given list of items
+  pub fn create (items :@This().Slice, allocator :std.mem.Allocator) !@This() {
     var result = try @This().create_capacity(items.len, allocator);
     result.buffer.appendSliceAssumeCapacity(items);
     return result;
   }
+  //______________________________________
+  /// @descr Creates a sequence from the given unmanaged seq.Buffer
+  pub fn fromUnmanaged (buffer :@This().Buffer, allocator :std.mem.Allocator) !@This() {
+    var result = try @This().create_capacity(buffer.capacity, allocator);
+    result.buffer = buffer;
+    return result;
+  }
+  //______________________________________
+  /// @descr Returns the unmanaged data of the sequence, and clears the sequence without deallocating any data
+  pub fn toUnmanaged (S :*@This()) @This().Buffer {
+    const allocator = S.A;
+    const result    = S.buffer;
+    S.* = @This().create_empty(allocator);
+    return result;
+  }
 
   //______________________________________
-  /// @description Creates a sequence with the given list of items
-  pub fn destroy (S :*@This()) void { S.buffer.deinit(S.A); }
+  pub fn toOwned (S :*@This(), comptime sentinel :T) !@This().Slice {
+    return try S.buffer.toOwnedSlice(S.A, sentinel);
+  }
   //______________________________________
-  /// @description Adds the given list of items to the sequence
+  pub fn toOwnedSentinel (S :*@This(), comptime sentinel :T) !@This().SentinelSlice(sentinel) {
+    return try S.buffer.toOwnedSliceSentinel(S.A, sentinel);
+  }
+  //______________________________________
+  pub fn zstring (S :*@This()) !zstd.zstring { return try S.toOwnedSentinel(0); }
+
+  //______________________________________
+  /// @descr
+  ///  Clones all of the data of the sequence into the result.
+  ///  The resulting sequence will be independent of the original and contain a duplicate of its data.
+  ///  Must destroy both sequences separately when done using them.
+  pub fn clone (S :*const @This()) !@This() {
+    var result = @This().create_empty(S.A);
+    result.buffer = try result.buffer.clone(result.A);
+    return result;
+  }
+
+  //______________________________________
+  /// @descr Adds the given item to the sequence
+  pub fn add_one (S :*@This(), item :T) !void { try S.buffer.append(S.A, item); }
+  //______________________________________
+  /// @descr Adds the given list of items to the sequence
+  pub fn add_many (S :*@This(), items :[]const T) !void { try S.buffer.appendSlice(S.A, items); }
+  //______________________________________
+  /// @descr Adds the given list of items to the sequence
+  // TODO: Make it generic for slice and single item
   pub fn add (S :*@This(), items :[]const T) !void { try S.buffer.appendSlice(S.A, items); }
 
+  //______________________________________
   // TODO: Make it generic for slice and single item
   pub fn contains (S :*@This(), item :T) bool { return std.mem.indexOfScalar(T, S.buffer.items, item) != null; }
   pub fn has (S :*@This(), item :T) bool { return S.contains(item); }
-
-};}
+};} //:: seq[T]
 
 
 //______________________________________
@@ -76,7 +123,7 @@ pub fn seq (comptime T :type) type { return struct {
 pub const Str = struct {
   const @"type" = ByteBuffer;
   /// @descr Allocates a Growable Sequence of Bytes (aka string) from the given {@arg S} string.
-  pub fn from (S :cstring, A :std.mem.Allocator) !@This() {
+  pub fn from (S :zstd.cstring, A :std.mem.Allocator) !@This() {
     var result = try @This().create_capacity(A, S.len);
     try result.add(S);
     return result;
