@@ -55,7 +55,7 @@ pub fn seq (comptime T :type) type { return struct {
 
   //______________________________________
   /// @descr Creates a sequence with the given list of items
-  pub fn create (items :@This().Slice, allocator :std.mem.Allocator) !@This() {
+  pub fn create (items :*const @This().Slice, allocator :std.mem.Allocator) !@This() {
     var result = try @This().create_capacity(items.len, allocator);
     result.buffer.appendSliceAssumeCapacity(items);
     return result;
@@ -106,8 +106,8 @@ pub fn seq (comptime T :type) type { return struct {
   pub fn add_many (S :*@This(), items :[]const T) !void { try S.buffer.appendSlice(S.A, items); }
   //______________________________________
   /// @descr Adds the given list of items to the sequence
-  // TODO: Make it generic for slice and single item
-  pub fn add (S :*@This(), items :[]const T) !void { try S.buffer.appendSlice(S.A, items); }
+  // TODO: Default to add_many for `string`, but explicit for seq[T]
+  pub fn add (S :*@This(), items :[]const T) !void { try S.add_many(items); }
 
   //______________________________________
   // TODO: Make it generic for slice and single item
@@ -119,6 +119,11 @@ pub fn seq (comptime T :type) type { return struct {
 //______________________________________
 // @section string
 //____________________________
+/// @descr Adds the given list of items to the sequence
+// pub const string = struct {
+//   pub fn add (S :*@This(), items :T) !void { try S.add_one(items); }
+// }
+
 /// @descr Collection of tools for dealing with Growable Sequence of Bytes (aka string).
 pub const Str = struct {
   const @"type" = ByteBuffer;
