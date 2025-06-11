@@ -93,9 +93,10 @@ pub fn seq (comptime T :type) type { return struct {
   ///  The resulting sequence will be independent of the original and contain a duplicate of its data.
   ///  Must destroy both sequences separately when done using them.
   pub fn clone (S :*const @This()) !@This() {
-    var result = @This().create_empty(S.A);
-    result.buffer = try result.buffer.clone(result.A);
-    return result;
+    return @This(){
+      .A      = S.A,
+      .buffer = try S.buffer.clone(S.A)
+    };
   }
 
   //______________________________________

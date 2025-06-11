@@ -61,6 +61,17 @@ try it("must return false when calling .contains if the string does not include 
   try t.eq(result, Expected);
 }}.f);
 
+try it("must return a valid clone of itself when calling .clone", struct {fn f()!void {
+  const Expected = "SomeString";
+  var data = string.create_empty(A);
+  defer data.destroy();
+  try data.add(Expected);
+  var clone = try data.clone();
+  defer clone.destroy();
+  const result = clone.data();
+  try t.eq_str(result, Expected);
+}}.f);
+
 } //:: string
 
 
