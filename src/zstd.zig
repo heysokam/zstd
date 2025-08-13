@@ -37,9 +37,9 @@ pub const fatal   = result.fatal;
 //______________________________________
 // @section Type Exports
 //____________________________
-pub const cstr        = T.cstr;
+pub const cstring     = T.cstring;
 pub const cstr_List   = T.cstr_List;
-pub const zstr        = T.zstr;
+pub const zstring     = T.zstring;
 pub const zstr_List   = T.zstr_List;
 pub const seq         = T.seq;
 pub const set         = T.set.Set;
