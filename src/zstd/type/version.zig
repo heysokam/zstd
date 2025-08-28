@@ -1,8 +1,8 @@
 //:_______________________________________________________
 //  zstd  |  Copyright (C) Ivan Mar (sOkam!)  |  MPL-2.0 :
 //:_______________________________________________________
-//! @fileoverview Describes a General Purpose Name.
-//__________________________________________________|
+//! @fileoverview Describes a Semantic Version object.
+//____________________________________________________|
 pub const Version = std.SemanticVersion;
 // @deps std
 const std = @import("std");
