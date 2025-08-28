@@ -1,6 +1,6 @@
-//:____________________________________________________________________
-//  zstd  |  Copyright (C) Ivan Mar (sOkam!)  |  GNU LGPLv3 or later  :
-//:____________________________________________________________________
+//:_______________________________________________________
+//  zstd  |  Copyright (C) Ivan Mar (sOkam!)  |  MPL-2.0 :
+//:_______________________________________________________
 //! @fileoverview
 //!  Toolset to manage Git Logs using CLI tools.
 //!  Requires `git` command available in PATH.
