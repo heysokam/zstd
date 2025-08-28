@@ -9,13 +9,15 @@ const std = @import("std");
 const Dir = std.fs.Dir;
 // @deps zstd
 const zstd = struct {
-  usingnamespace @import("./types.zig");
-  const files = _This;
+  const files     = _This;
+  const types     = @import("./types.zig");
+  const cstr      = types.cstring;
+  const cstr_List = types.cstr_List;
+  const seq       = types.seq;
 };
-
-const cstr = zstd.cstr;
+const cstr      = zstd.cstr;
 const cstr_List = zstd.cstr_List;
-const seq  = zstd.seq;
+const seq       = zstd.seq;
 
 
 //______________________________________
