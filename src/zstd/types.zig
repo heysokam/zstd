@@ -3,6 +3,7 @@
 //:_______________________________________________________
 //! @fileoverview Forward Export all other type modules
 //______________________________________________________|
+const std = @import("std");
 
 
 //______________________________________
@@ -20,7 +21,7 @@ pub const mstring      = alias.mstring;
 pub const mstr         = alias.mstr;
 pub const cstring_List = alias.cstring_List;
 pub const cstr_List    = alias.cstr_List;
-pub const List         = std.MultiArrayList;
+pub const List         = alias.List;
 pub const Map          = alias.Map;
 pub const StringTable  = alias.StringTable;
 

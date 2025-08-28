@@ -38,7 +38,7 @@ pub const cstr_List    = cstring_List;
 // @section MultiArray List Aliases
 //____________________________
 /// @descr MultiArray List (SoA)
-pub const List = std.MultiArrayList;
+pub const List = std.MultiArrayListUnmanaged;
 
 
 //______________________________________
