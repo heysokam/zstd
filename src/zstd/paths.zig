@@ -7,7 +7,6 @@ const P   = std.fs.path;
 // @deps zstd
 const cstring = @import("./type/alias.zig").cstring;
 const string  = @import("./type/sequence.zig").string;
-const echo = @import("./log.zig").echo;
 
 
 //______________________________________
@@ -17,6 +16,11 @@ inline fn thisDir (A :std.mem.Allocator) cstring {
   const abspath = comptime std.fs.path.dirname(@src().file) orelse ".";
   return std.fs.path.relative(A, "./", abspath) catch unreachable;
 }
+
+//______________________________________
+// @section File Management
+//____________________________
+pub const join = std.fs.path.join;
 
 
 //______________________________________
