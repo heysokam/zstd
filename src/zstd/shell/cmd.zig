@@ -69,9 +69,9 @@ pub fn destroy (C :*Cmd) void {
   if (C.cwd != null) C.cwd = null;
 }
 /// @descr Creates a new empty Cmd object, and initializes its memory
-pub fn create  (A :std.mem.Allocator) Cmd { return Cmd{.parts = Cmd.Parts.create_empty(A)}; }
+pub fn create (A :std.mem.Allocator) Cmd { return Cmd{.parts = Cmd.Parts.create_empty(A)}; }
 /// @descr Adds the {@arg part} to the list of parts of the {@arg Cmd}. Allocates more memory as necessary.
-pub fn add     (C :*Cmd, part :cstring) !void { try C.parts.add_one(part); }
+pub fn add (C :*Cmd, part :cstring) !void { try C.parts.add_one(part); }
 /// @descr Adds the entire {@arg list} to the list of parts of the {@arg Cmd}. Allocates more memory as necessary.
 pub fn add_many (C :*Cmd, list :cstr_List) !void { try C.parts.add_many(list); }
 pub const addList = add_many;
