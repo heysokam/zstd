@@ -112,9 +112,17 @@ pub fn seq (comptime T :type) type { return struct {
 
   //______________________________________
   // TODO: Make it generic for slice and single item
+  //     : Use std.meta.eql(A,B)
   pub fn contains (S :*@This(), item :T) bool { return std.mem.indexOfScalar(T, S.buffer.items, item) != null; }
   pub fn has (S :*@This(), item :T) bool { return S.contains(item); }
 };} //:: seq[T]
+
+// pub fn contains(self: @This(), item: T) bool {
+//   for (self.items) |elem| {
+//     if (std.meta.eql(elem, item)) return true;
+//   }
+//   return false;
+// }
 
 
 //______________________________________

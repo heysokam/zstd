@@ -1,0 +1,19 @@
+.{
+    .name = .zstd,
+    .version = "0.0.27",
+    // Globally unique package identifier.
+    // Generated when the package is created, and *never changes*.
+    // When forking, this id should be regenerated.
+    // Otherwise, the fork is attempting to take control over the original project's identity.
+    .fingerprint = 0x72fd505ef7621f24, // Changing this has security and trust implications.
+    .minimum_zig_version = "0.15.1",
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src/zstd",
+        "src/zstd.zig",
+        // Documentation
+        "license.md",
+        "readme.md",
+    },
+}
