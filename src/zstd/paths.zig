@@ -20,7 +20,8 @@ inline fn thisDir (A :std.mem.Allocator) cstring {
 //______________________________________
 // @section File Management
 //____________________________
-pub const join = std.fs.path.join;
+pub const join     = std.fs.path.join;
+pub const basename = std.fs.path.basename;
 
 
 //______________________________________
