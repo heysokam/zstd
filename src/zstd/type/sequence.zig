@@ -32,6 +32,8 @@ pub fn seq (comptime T :type) type { return struct {
   A       :std.mem.Allocator,
   buffer  :@This().Buffer,
   pub fn data (str :*const @This()) @This().Slice { return str.buffer.items; }
+  pub inline fn len (S :*@This()) usize { return S.data().len; }
+  pub inline fn at (S :*@This(), id :usize) T { return S.data()[id]; }
 
   //______________________________________
   /// @descr Creates a sequence with the given list of items
