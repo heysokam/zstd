@@ -22,6 +22,7 @@ inline fn thisDir (A :std.mem.Allocator) cstring {
 //____________________________
 pub const join     = std.fs.path.join;
 pub const basename = std.fs.path.basename;
+pub const name     = std.fs.path.stem;
 
 
 //______________________________________
