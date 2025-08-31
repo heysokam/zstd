@@ -32,7 +32,7 @@ const zig = struct {
   /// @unsafe @blocking
   /// @descr Runs the given command using {@link std.process.Child.spawnAndWait} in non-capturing (aka shell-like) mode
   /// @todo Broken. Doesn't work.
-  fn sh(cmd :cstr, args :cstr_List) void {
+  fn sh (cmd :cstr, args :cstr_List) void {
     var A = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     var P = std.process.Child.init(&.{cmd, args}, A.allocator());
     _ = std.process.Child.spawnAndWait(&P) catch {};
